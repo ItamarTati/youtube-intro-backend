@@ -1,8 +1,10 @@
 import os
 import requests
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+CORS(app, origins=["https://itamartati.github.io", "http://localhost:3000"])
 
 @app.route('/gemini-generate-intro', methods=['POST'])
 def gemini_generate_intro():
