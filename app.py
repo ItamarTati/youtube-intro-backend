@@ -32,12 +32,15 @@ def gemini_generate_intro():
         )
 
         if response.status_code == 200:
-            return jsonify(response.json()), 200
+            response_json = response.json()
+            intro_text = response_json.get('candidates', [])[0].get('content', {}).get('parts', [])[0].get('text', 'No content')
+            return jsonify({'intro': intro_text}), 200
         else:
             return jsonify({'error': 'Failed to gemini generate intro'}), 500
 
     except requests.exceptions.RequestException as e:
         return jsonify({'error': f'API error: {str(e)}'}), 500
+
 
 @app.route('/chatgpt-generate-intro', methods=['POST'])
 def chatgpt_generate_intro():
